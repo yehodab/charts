@@ -3,7 +3,45 @@ entries:
   cp-resource-management:
   - apiVersion: v1
     appVersion: v1.1.0
-    created: "2020-05-27T16:19:14.3949568+03:00"
+    created: "2020-10-18T18:41:10.9553928+03:00"
+    description: A Helm chart for Dome9 inventory uploader
+    digest: dfe5821fb96fea579fd36b02394415a40101e5059ea55d98e643d07d0fc85698
+    home: https://secure.dome9.com/v2/
+    icon: https://secure.dome9.com/v2/assets/images/dome9/d9-logo-white.svg
+    keywords:
+    - checkpoint
+    - dome9
+    - inventory
+    - compliance
+    maintainers:
+    - email: dome9@checkpoint.com
+      name: Check Point
+    name: cp-resource-management
+    urls:
+    - https://raw.githubusercontent.com/CheckPointSW/charts/region/repository/cp-resource-management-1.10.0.tgz
+    version: 1.10.0
+  - apiVersion: v1
+    appVersion: v1.1.0
+    created: "2020-10-18T18:41:10.9543927+03:00"
+    description: A Helm chart for Dome9 inventory uploader
+    digest: e3f26aa29fefa56a9e75da754fd37b1e07b03033fa5f02fac9dd2556cc6ab2af
+    home: https://secure.dome9.com/v2/
+    icon: https://secure.dome9.com/v2/assets/images/dome9/d9-logo-white.svg
+    keywords:
+    - checkpoint
+    - dome9
+    - inventory
+    - compliance
+    maintainers:
+    - email: dome9@checkpoint.com
+      name: Check Point
+    name: cp-resource-management
+    urls:
+    - https://raw.githubusercontent.com/CheckPointSW/charts/region/repository/cp-resource-management-1.06.tgz
+    version: "1.06"
+  - apiVersion: v1
+    appVersion: v1.1.0
+    created: "2020-10-18T18:41:10.9543927+03:00"
     description: A Helm chart for Dome9 inventory uploader
     digest: ebaf4da8a836f017cb4cbd0012b063e293e3ae805ebddb92ce49d666fe328cf4
     home: https://secure.dome9.com/v2/
@@ -18,11 +56,11 @@ entries:
       name: Check Point
     name: cp-resource-management
     urls:
-    - https://raw.githubusercontent.com/CheckPointSW/charts/master/repository/cp-resource-management-1.05.tgz
+    - https://raw.githubusercontent.com/CheckPointSW/charts/region/repository/cp-resource-management-1.05.tgz
     version: "1.05"
   - apiVersion: v1
     appVersion: v1.1.0
-    created: "2020-05-27T16:19:14.3949568+03:00"
+    created: "2020-10-18T18:41:10.9533957+03:00"
     description: A Helm chart for Dome9 inventory uploader
     digest: 54fa558ffa87cd41617ce2422b643680ff975ae4e76252dd9dc0a6bde483af38
     home: https://secure.dome9.com/v2/
@@ -37,11 +75,11 @@ entries:
       name: Check Point
     name: cp-resource-management
     urls:
-    - https://raw.githubusercontent.com/CheckPointSW/charts/master/repository/cp-resource-management-1.03.tgz
+    - https://raw.githubusercontent.com/CheckPointSW/charts/region/repository/cp-resource-management-1.03.tgz
     version: "1.03"
   - apiVersion: v1
     appVersion: "1.01"
-    created: "2020-05-27T16:19:14.3929984+03:00"
+    created: "2020-10-18T18:41:10.9533957+03:00"
     description: A Helm chart for Dome9 inventory uploader
     digest: c2514f34c7d80d704d13e7233f660ad55cd56895f671ad68128affe47ada14a5
     home: https://secure.dome9.com/v2/
@@ -56,11 +94,11 @@ entries:
       name: Check Point
     name: cp-resource-management
     urls:
-    - https://raw.githubusercontent.com/CheckPointSW/charts/master/repository/cp-resource-management-1.02.tgz
+    - https://raw.githubusercontent.com/CheckPointSW/charts/region/repository/cp-resource-management-1.02.tgz
     version: "1.02"
   - apiVersion: v1
     appVersion: "1"
-    created: "2020-05-27T16:19:14.3959543+03:00"
+    created: "2020-10-18T18:41:10.9553928+03:00"
     description: A Helm chart for Dome9 inventory uploader
     digest: ee75a01ae09e8ceec83cda0d16621198ebb2139b87c323966e65ba6ca65024f0
     home: https://secure.dome9.com/v2/
@@ -75,6 +113,6 @@ entries:
       name: Check Point
     name: cp-resource-management
     urls:
-    - https://raw.githubusercontent.com/CheckPointSW/charts/master/repository/cp-resource-management-1.tgz
+    - https://raw.githubusercontent.com/CheckPointSW/charts/region/repository/cp-resource-management-1.tgz
     version: "1"
-generated: "2020-05-27T16:19:14.3919707+03:00"
+generated: "2020-10-18T18:41:10.9524+03:00"

@@ -58,6 +58,7 @@ The following tables list the configurable parameters of this chart and their de
 
 | Parameter                                         | Description                                                   | Default                                                     |
 | ------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
+| `region`                                          | Specify which CloudGuard region to use: US, EU, SG            | `US`                                                        |
 | `replicaCount`                                    | Number of provisioner instances to deployed                   | `1`                                                         |
 | `RBAC.create`                                     | Specifies whether RBAC resources should be created            | `true`                                                      |
 | `serviceAccount.create`                           | Specifies whether RBAC resources should be created            | `true`                                                      |

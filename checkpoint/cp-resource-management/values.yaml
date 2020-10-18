@@ -1,3 +1,8 @@
+## Region 
+## Available regions: US, EU, SG (Singapore)
+region: US
+
+
 ## Default values.
 replicaCount: 1
 

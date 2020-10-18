@@ -57,7 +57,15 @@ spec:
             allowPrivilegeEscalation: false
           env:
             - name: DOME9_URL
+            {{- if eq .Values.region "US" }}
               value: "https://api-cpx.dome9.com"
+            {{- else if eq .Values.region "EU" }}
+              value: "https://api-cpx-eu.dome9.com"
+            {{- else if eq .Values.region "SG" }}
+              value: "https://api-cpx-sg.dome9.com"
+            {{- else }}
+            {{ fail "Unsupported region. The supported regions are 'US', 'EU', and 'SG'" }}
+            {{- end }}
             - name: CP_KUBERNETES_CLUSTER_ID
               valueFrom:
                 configMapKeyRef:
