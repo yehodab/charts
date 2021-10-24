@@ -1,0 +1,176 @@
+---
+# Source: cloudguard/templates/inventory/agent/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: asset-mgmt-inventory-agent
+  namespace: cp
+  labels:
+    helm.sh/chart: cloudguard-2.5.2
+    app.kubernetes.io/name: asset-mgmt-inventory-agent
+    app.kubernetes.io/instance: asset-mgmt
+---
+# Source: cloudguard/templates/cg-creds-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: asset-mgmt-cp-cloudguard-creds
+  namespace: cp
+  labels:
+    helm.sh/chart: cloudguard-2.5.2
+    app.kubernetes.io/name: asset-mgmt-inventory-agent
+    app.kubernetes.io/instance: asset-mgmt
+type: Opaque
+data:
+  secret: "Z2N5YnFkOGJpbmY0cmFhb295amg4NTRh"
+  username: "YWMwZjczZTItYjBkYS00N2Q3LWIwY2QtNDIzMTQ2YTA1MmI5"
+---
+# Source: cloudguard/templates/registry-creds-secret.yaml
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/dockerconfigjson
+metadata:
+  name: asset-mgmt-regcred
+  namespace: cp
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJxdWF5LmlvIjp7ImF1dGgiOiJZMmhsWTJ0d2IybHVkQ3R3ZFdKc2FXTmZZV05qWlhOek9qWTBSRWxNV0V3eFQxWlVTVGxQTjFwWVZsQldRbFk1TnpBeldGWkRVelF5TVRCVlNVdE1VRk5DV1UweVJWTXdVRXhUUlU1UVJFTk5TMXBHTVZZMk1sTT0ifX19
+---
+# Source: cloudguard/templates/cg-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: asset-mgmt-cp-cloudguard-configmap
+  namespace: cp
+  labels:
+    helm.sh/chart: cloudguard-2.5.2
+    app.kubernetes.io/name: asset-mgmt-inventory-agent
+    app.kubernetes.io/instance: asset-mgmt
+data:
+  clusterID: "104b7421-c222-4212-8009-82412aa82944"
+---
+# Source: cloudguard/templates/inventory/agent/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: asset-mgmt-inventory-agent
+  namespace: cp
+  labels:
+    helm.sh/chart: cloudguard-2.5.2
+    app.kubernetes.io/name: asset-mgmt-inventory-agent
+    app.kubernetes.io/instance: asset-mgmt
+rules:
+  - apiGroups: [""]
+    resources: [ "pods", "services", "nodes", "nodes/proxy", "serviceaccounts", "namespaces", "resourcequotas" ]
+    verbs: [ "list", "get" ]
+
+  - apiGroups: ["apps"]
+    resources: [ "daemonsets", "deployments", "replicasets", "statefulsets"]
+    verbs: [ "list", "get" ]
+
+
+  - apiGroups: [ "networking.k8s.io" ]
+    resources: [ "networkpolicies", "ingresses" ]
+    verbs: [ "list", "get" ]
+
+  - apiGroups: [ "policy" ]
+    resources: [ "podsecuritypolicies" ]
+    verbs: [ "list", "get" ]
+
+  - apiGroups: [ "rbac.authorization.k8s.io" ]
+    resources: [ "roles", "rolebindings", "clusterroles", "clusterrolebindings" ]
+    verbs: [ "list", "get" ]
+
+  - apiGroups: [ "batch" ]
+    resources: [ "cronjobs" ]
+    verbs: [ "list", "get" ]
+---
+# Source: cloudguard/templates/inventory/agent/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: asset-mgmt-inventory-agent
+  namespace: cp
+  labels:
+    helm.sh/chart: cloudguard-2.5.2
+    app.kubernetes.io/name: asset-mgmt-inventory-agent
+    app.kubernetes.io/instance: asset-mgmt
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: asset-mgmt-inventory-agent
+subjects:
+- kind: ServiceAccount
+  name: asset-mgmt-inventory-agent
+  namespace: cp
+---
+# Source: cloudguard/templates/inventory/agent/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asset-mgmt-inventory-agent
+  namespace: cp
+  annotations:
+    agentVersion: 1.3.0
+  labels:
+    helm.sh/chart: cloudguard-2.5.2
+    app.kubernetes.io/name: asset-mgmt-inventory-agent
+    app.kubernetes.io/instance: asset-mgmt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: asset-mgmt-inventory-agent
+      app.kubernetes.io/instance: asset-mgmt
+  template:
+    metadata:
+      annotations:
+        agentVersion: 1.3.0
+        seccomp.security.alpha.kubernetes.io/pod: runtime/default
+      labels:
+        app.kubernetes.io/name: asset-mgmt-inventory-agent
+        app.kubernetes.io/instance: asset-mgmt
+    spec:
+      serviceAccountName: asset-mgmt-inventory-agent
+      imagePullSecrets:
+      - name: asset-mgmt-regcred
+      securityContext:
+        runAsUser: 17112
+      containers:
+      # Main container
+      - name: agent
+        image: quay.io/checkpoint/consec-inventory-agent:1.3.0
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /etc/secret-volume
+        command: ["/inventory"]
+        resources:
+          limits:
+            cpu: 200m
+            memory: 50Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+        securityContext:
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+        env:
+        - name: DOME9_URL
+          value: https://api-cpx.dome9.com
+        - name: CP_KUBERNETES_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              name: asset-mgmt-cp-cloudguard-configmap
+              key: clusterID
+        - name: NAMESPACE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: asset-mgmt-cp-cloudguard-creds
