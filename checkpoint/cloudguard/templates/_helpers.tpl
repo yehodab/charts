@@ -87,6 +87,7 @@ container.apparmor.security.beta.kubernetes.io/{{ template "agent.resource.name"
 securityContext:
   runAsUser: {{ include "cloudguard.nonroot.user" . }}
   runAsGroup: {{ include "cloudguard.nonroot.user" . }}
+{{ fail "abc" }}
 {{ fail (.Capabilities | quote) }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.Version }}
   seccompProfile:
