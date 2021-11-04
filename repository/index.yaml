@@ -3,9 +3,9 @@ entries:
   cloudguard:
   - apiVersion: v2
     appVersion: 2.7.0
-    created: "2021-11-04T09:11:34.624672254-04:00"
+    created: "2021-11-04T09:12:46.536926958-04:00"
     description: A Helm chart for Check Point CloudGuard Workload Security
-    digest: 0df25ec4ed22ad98135e254204e3e2cbf11316ec0602c930c8530dbd341259e2
+    digest: b4b44ea75f41520de3bd07e4956baffe37738929b50065e7a21460cec25bf44e
     home: https://portal.checkpoint.com
     icon: https://www.checkpoint.com/wp-content/uploads/icon-cloudguard-nav.png
     keywords:
@@ -26,7 +26,7 @@ entries:
     version: 2.7.0
   - apiVersion: v2
     appVersion: 2.5.2
-    created: "2021-11-04T09:11:34.622472502-04:00"
+    created: "2021-11-04T09:12:46.534649951-04:00"
     description: A Helm chart for Check Point CloudGuard Workload Security
     digest: ece3976177c6cb29185e0c551ef36503ad0bc2447b84136eb84394bc92b89740
     home: https://portal.checkpoint.com
@@ -47,4 +47,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/yehodab/charts/master/repository/cloudguard-2.5.2.tgz
     version: 2.5.2
-generated: "2021-11-04T09:11:34.61968504-04:00"
+generated: "2021-11-04T09:12:46.531505963-04:00"
