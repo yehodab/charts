@@ -396,8 +396,8 @@ tanzu
   use to know if we run from template (which mean wo have no connection to the cluster and cannot check Capabilities/nodes etc.)
 */}}
 {{- define "is.helm.template.command" -}}
-{{ fail (.Capabilities.APIVersions | quote) }}
-{{- if not (has "v1" .Capabilities.APIVersions) -}}
+{{- $namespace := lookup "v1" "Namespace" "" "" -}}
+{{- if eq (len $namespace) 0 -}}
 true
 {{- end -}}
 {{- end -}}
