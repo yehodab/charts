@@ -1,0 +1,8 @@
+#/bin/bash
+cd repository/
+helm package ../checkpoint/cloudguard
+helm repo index --url https://raw.githubusercontent.com/yehodab/charts/master/repository/ .
+cd ..
+git add .
+git commit -m test
+git push origin master:master

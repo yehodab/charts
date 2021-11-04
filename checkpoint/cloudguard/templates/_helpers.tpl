@@ -72,7 +72,7 @@ helm.sh/chart: {{ printf "%s-%s" .Chart.name .Chart.version | replace "+" "_" | 
 {{- /* Pod annotations commonly used in agents */ -}}
 {{- define "common.pod.annotations" -}}
 agentVersion: {{ .agentConfig.tag }}
-{{- if and (ne (include "get.platform" .) "openshift") (semverCompare "<1.19-0" .Capabilities.KubeVersion.Version ) }}
+{{- if and (ne (include "get.platform" .) "openshift") (or (semverCompare "<1.19-0" .Capabilities.KubeVersion.Version ) (is.template .)) }}
 seccomp.security.alpha.kubernetes.io/pod: {{ .Values.podAnnotations.seccomp }}
 {{- end }}
 {{- if .Values.podAnnotations.apparmor }}
@@ -87,7 +87,7 @@ container.apparmor.security.beta.kubernetes.io/{{ template "agent.resource.name"
 securityContext:
   runAsUser: {{ include "cloudguard.nonroot.user" . }}
   runAsGroup: {{ include "cloudguard.nonroot.user" . }}
-{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.Version }}
+{{- and (if semverCompare ">=1.19-0" .Capabilities.KubeVersion.Version) (not (is.template .)) }}
   seccompProfile:
 {{ toYaml .Values.seccompProfile | indent 4 }}
 {{- end }}
@@ -387,5 +387,17 @@ openshift
 tanzu
 {{- else -}}
 {{- .Values.platform | quote -}}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+  use to know if we run from template (which mean wo have no connection to the cluster and cannot check Capabilities/nodes etc.)
+*/}}
+{{- define "is.template" -}}
+{{- if has "v1" .Capabilities.APIVersions -}}
+true
+{{- else -}}
+false
 {{- end -}}
 {{- end -}}
