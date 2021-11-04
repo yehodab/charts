@@ -72,6 +72,7 @@ helm.sh/chart: {{ printf "%s-%s" .Chart.name .Chart.version | replace "+" "_" | 
 {{- /* Pod annotations commonly used in agents */ -}}
 {{- define "common.pod.annotations" -}}
 agentVersion: {{ .agentConfig.tag }}
+{{ fail "abc" }}
 {{- if and (ne (include "get.platform" .) "openshift") (or (semverCompare "<1.19-0" .Capabilities.KubeVersion.Version ) (include "is.template" .)) }}
 seccomp.security.alpha.kubernetes.io/pod: {{ .Values.podAnnotations.seccomp }}
 {{- end }}
