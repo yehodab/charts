@@ -73,7 +73,6 @@ helm.sh/chart: {{ printf "%s-%s" .Chart.name .Chart.version | replace "+" "_" | 
 {{- define "common.pod.annotations" -}}
 agentVersion: {{ .agentConfig.tag }}
 {{- if and (ne (include "get.platform" .) "openshift") (or (semverCompare "<1.19-0" .Capabilities.KubeVersion.Version ) (include "is.helm.template.command" .)) }}
-{{ fail "anno" }}
 seccomp.security.alpha.kubernetes.io/pod: {{ .Values.podAnnotations.seccomp }}
 {{- end }}
 {{- if .Values.podAnnotations.apparmor }}
@@ -85,7 +84,6 @@ container.apparmor.security.beta.kubernetes.io/{{ template "agent.resource.name"
 {{- /* Pod properties commonly used in agents */ -}}
 {{- define "common.pod.properties" -}}
 {{- if ne (include "get.platform" .) "openshift" }}
-{{ fail "seccomp" }}
 securityContext:
   runAsUser: {{ include "cloudguard.nonroot.user" . }}
   runAsGroup: {{ include "cloudguard.nonroot.user" . }}
